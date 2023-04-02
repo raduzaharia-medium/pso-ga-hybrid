@@ -1,12 +1,12 @@
 import { createRandomArray, createRandomMatrix } from "./random.js";
-import { pickBest, nextGeneration, fitness } from "./operations.js";
+import { nextGeneration, fitness } from "./operations.js";
 import { createStatusRow } from "./tools.js";
 
 let population = createRandomMatrix(500, 20);
 let best = createRandomMatrix(500, 20);
 let globalBest = createRandomArray(20);
 
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 20; i++) {
   population = nextGeneration(population, best, globalBest, 0.4);
 
   for (let j = 0; j < population.length; j++) {

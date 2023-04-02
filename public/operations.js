@@ -6,9 +6,9 @@ export const crossover = (parent1, parent2, crossPoint) => [
   ...parent2.slice(crossPoint, parent2.length),
 ];
 
-export const mutate = (individual, probability) =>
+export const mutate = (individual, rate) =>
   individual.map((e) =>
-    Math.random() < probability ? e * Math.random() + Math.random() : e
+    Math.random() < rate ? e * Math.random() + Math.random() : e
   );
 
 export const fitness = memoize((individual) => {
@@ -22,12 +22,12 @@ export const pickBest = (...args) =>
     args[0]
   );
 
-export const createChild = (parent1, parent2, mutationProbability) => {
+export const createChild = (parent1, parent2, mutationRate) => {
   if (same(parent1, parent2)) return createRandomArray(parent1.length);
 
   const crossPoint = pickRandomNumber(parent1.length);
   const child = crossover(parent1, parent2, crossPoint);
-  const mutant = mutate(child, mutationProbability);
+  const mutant = mutate(child, mutationRate);
 
   return pickBest(parent1, parent2, child, mutant);
 };
