@@ -44,9 +44,9 @@ export const approach = (parent1, parent2, best) =>
     )
   );
 
-export const nextGeneration = (population, mutationProbability) =>
+export const nextGeneration = (population, best, globalBest, mutationRate) =>
   population.map((element) =>
     Math.random() < 0.5
-      ? createChild(element, pickRandom(population), mutationProbability)
-      : approach(element, pickRandom(population), pickBest(...population))
+      ? createChild(element, pickRandom(population), mutationRate)
+      : approach(element, pickRandom(best), globalBest)
   );
