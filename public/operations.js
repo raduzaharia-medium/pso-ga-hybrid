@@ -1,5 +1,5 @@
-import { pickRandomNumber } from "./random.js";
-import { memoize } from "./tools.js";
+import { pickRandomNumber, createRandomArray } from "./random.js";
+import { memoize, same } from "./tools.js";
 
 export const crossover = (parent1, parent2, crossPoint) => [
   ...parent1.slice(0, crossPoint),
@@ -22,5 +22,31 @@ export const pickBest = (...args) =>
     args[0]
   );
 
+export const createChild = (parent1, parent2, mutationProbability) => {
+  if (same(parent1, parent2)) return createRandomArray(parent1.length);
+
+  const crossPoint = pickRandomNumber(parent1.length);
+  const child = crossover(parent1, parent2, crossPoint);
+  const mutant = mutate(child, mutationProbability);
+
+  return pickBest(parent1, parent2, child, mutant);
+};
+
 export const pickRandom = (population) =>
   population[pickRandomNumber(population.length - 1)];
+
+export const approach = (parent1, parent2, best) =>
+  parent1.map((e, index) =>
+    Math.abs(
+      e +
+        2 * Math.random() * (best[index] - e) +
+        2 * Math.random() * (parent2[index] - e)
+    )
+  );
+
+export const nextGeneration = (population, mutationProbability) =>
+  population.map((element) =>
+    Math.random() < 0.5
+      ? createChild(element, pickRandom(population), mutationProbability)
+      : approach(element, pickRandom(population), pickBest(...population))
+  );
