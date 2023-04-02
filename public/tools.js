@@ -10,5 +10,4 @@ export const memoize = (func) => {
 };
 
 export const same = (a, b) => a.every((v, i) => v === b[i]);
-
 export const roundAll = (array) => array.map((e) => e.toFixed(2));

@@ -1,5 +1,5 @@
 import { createRandomArray, pickRandomNumber } from "./random.js";
-import { mutate, crossover, pickBest } from "./operations.js";
+import { mutate, crossover, pickBest, pickRandom } from "./operations.js";
 import { same } from "./tools.js";
 
 export const createChild = (parent1, parent2, mutationProbability) => {
@@ -13,9 +13,6 @@ export const createChild = (parent1, parent2, mutationProbability) => {
 };
 
 export const nextGeneration = (population, mutationProbability) =>
-  population.map((element) => {
-    const other = population[pickRandomNumber(population.length - 1)];
-    const child = createChild(element, other, mutationProbability);
-
-    return child;
-  });
+  population.map((element) =>
+    createChild(element, pickRandom(population), mutationProbability)
+  );

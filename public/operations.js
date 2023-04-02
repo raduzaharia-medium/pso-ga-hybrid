@@ -1,3 +1,4 @@
+import { pickRandomNumber } from "./random.js";
 import { memoize } from "./tools.js";
 
 export const crossover = (parent1, parent2, crossPoint) => [
@@ -11,7 +12,7 @@ export const mutate = (individual, probability) =>
   );
 
 export const fitness = memoize((individual) => {
-  const sum = individual.reduceRight((result, e, index) => result + e, 0);
+  const sum = individual.reduceRight((result, e) => result + e, 0);
   return Math.abs(sum - 50);
 });
 
@@ -20,3 +21,6 @@ export const pickBest = (...args) =>
     (result, e) => (fitness(result) < fitness(e) ? result : e),
     args[0]
   );
+
+export const pickRandom = (population) =>
+  population[pickRandomNumber(population.length - 1)];
